@@ -97,13 +97,22 @@ class DummyApiService(
         return createSuccessResponseEntity("Successfully deleted api name and all related conditions")
     }
 
-    fun listAll(name: String): String {
+    fun listAllForName(name: String): String {
 
         val configuration =
             configurationRepository.findByName(name) ?: throw Exception("Failed. Configuration name not found.")
 
         return createSuccessResponseEntity(
             jacksonObjectMapper().writeValueAsString(dummyApiLogicService.getList(configuration,name))
+        )
+    }
+
+    fun listOfAllNames(): String {
+
+        val configurationNames = configurationRepository.findAllNames()
+
+        return createSuccessResponseEntity(
+            jacksonObjectMapper().writeValueAsString(configurationNames)
         )
     }
 

@@ -13,7 +13,11 @@ class MockApiController(
     private val dummyApiService: DummyApiService
 ) {
 
-    @PostMapping("/dummy_bank/add_new", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(
+        "/dummy_bank/add_new",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     fun addNew(
         @RequestBody requestPayload: AddNewRequestDTO
     ): ResponseEntity<String> {
@@ -24,7 +28,11 @@ class MockApiController(
 
     }
 
-    @PostMapping("/dummy_bank/{name}/add_new_response", consumes = ["application/json"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(
+        "/dummy_bank/{name}/add_new_response",
+        consumes = ["application/json"],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     fun addNewResponseCondition(
         @PathVariable("name") name: String,
         @RequestBody requestPayload: AddNewResponseConditionRequestDTO
@@ -38,10 +46,24 @@ class MockApiController(
     @PostMapping("/dummy_bank/{name}", consumes = ["application/json"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getResponseForName(
         @PathVariable("name") name: String,
-        @RequestBody requestPayload: Map<String, Any>
+        @RequestBody(required = false) requestPayload: Map<String, Any>?
     ): ResponseEntity<String> {
 
-        val response = dummyApiService.getResponse(name, requestPayload)
+        val response =
+            if (requestPayload.isNullOrEmpty()) {
+                val payload = mapOf<String, Any>()
+                dummyApiService.getResponse(name, payload)
+            } else {
+                dummyApiService.getResponse(name, requestPayload)
+            }
+
+        return ResponseEntity.ok(response)
+    }
+
+    @PostMapping("/dummy_bank/list", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getListOfAllNames(): ResponseEntity<String> {
+
+        val response = dummyApiService.listOfAllNames()
 
         return ResponseEntity.ok(response)
     }
@@ -51,7 +73,7 @@ class MockApiController(
         @PathVariable("name") name: String,
     ): ResponseEntity<String> {
 
-        val response = dummyApiService.listAll(name)
+        val response = dummyApiService.listAllForName(name)
 
         return ResponseEntity.ok(response)
     }

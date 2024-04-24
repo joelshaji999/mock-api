@@ -100,7 +100,7 @@ class DummyApiLogicService(
                 val innerJsonValue =
                     jacksonObjectMapper().readValue(parsedValue, object : TypeReference<Map<String, Any>>() {})
 
-                conditionCombinationFound = getConditionCombination(innerJsonValue, conditions)
+                conditionCombinationFound.addAll(getConditionCombination(innerJsonValue, conditions))
 
             }
 
