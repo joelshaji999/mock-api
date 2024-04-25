@@ -60,7 +60,7 @@ class MockApiController(
         return ResponseEntity.ok(response)
     }
 
-    @PostMapping("/dummy_bank/list", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/dummy_bank/list", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getListOfAllNames(): ResponseEntity<String> {
 
         val response = dummyApiService.listOfAllNames()
@@ -68,7 +68,7 @@ class MockApiController(
         return ResponseEntity.ok(response)
     }
 
-    @PostMapping("/dummy_bank/{name}/list", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/dummy_bank/{name}/list", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getListForName(
         @PathVariable("name") name: String,
     ): ResponseEntity<String> {
