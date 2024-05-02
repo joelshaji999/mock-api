@@ -67,6 +67,7 @@ class DummyApiLogicService(
 
         val response = ListAllResponseDTO(
             name = name,
+            defaultResponse = configuration.responseJson,
             condition = condition
         )
 

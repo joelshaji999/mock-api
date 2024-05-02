@@ -11,6 +11,9 @@ data class ListAllResponseDTO(
 
     val name: String,
 
+    @JsonRawValue
+    val defaultResponse: String,
+
     val condition: List<ConditionData>
 )
 
