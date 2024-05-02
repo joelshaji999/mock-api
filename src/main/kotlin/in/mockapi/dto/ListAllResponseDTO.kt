@@ -14,7 +14,8 @@ data class ListAllResponseDTO(
     @JsonRawValue
     val defaultResponse: String,
 
-    val condition: List<ConditionData>
+    val condition: List<ConditionData>,
+
 )
 
 data class ConditionData(
@@ -22,6 +23,8 @@ data class ConditionData(
     var conditionMap: Map<String, Any>,
 
     @JsonRawValue
-    var responseData: String
+    var responseData: String,
+
+    val conditionIdentifier: String
 
 )

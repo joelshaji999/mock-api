@@ -59,7 +59,8 @@ class DummyApiLogicService(
 
             val conditionData = ConditionData(
                 conditionMap = conditionMap,
-                responseData = it.response
+                responseData = it.response,
+                conditionIdentifier = it.uuid
             )
 
             condition.add(conditionData)

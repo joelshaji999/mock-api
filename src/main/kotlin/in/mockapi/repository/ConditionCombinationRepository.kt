@@ -12,4 +12,8 @@ interface ConditionCombinationRepository : JpaRepository<ConditionCombinationEnt
 
     fun deleteByConfigurationEntity(configurationEntity: ConfigurationEntity)
 
+    fun findByUuid(uuid: String): ConditionCombinationEntity?
+
+    fun deleteByUuid(uuid: String)
+
 }

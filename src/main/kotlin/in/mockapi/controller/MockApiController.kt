@@ -88,5 +88,18 @@ class MockApiController(
         return ResponseEntity.ok(response)
     }
 
+    @PostMapping("/dummy_bank/{name}/{condition_identifier}/delete", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun deleteApiNameCompleted(
+        @PathVariable("name") name: String,
+        @PathVariable("condition_identifier") conditionIdentifier: String,
+    ): ResponseEntity<String> {
+
+        val response = dummyApiService.deleteConditionCombinationForApiName(name, conditionIdentifier)
+
+        return ResponseEntity.ok(response)
+    }
+
+
+
 
 }

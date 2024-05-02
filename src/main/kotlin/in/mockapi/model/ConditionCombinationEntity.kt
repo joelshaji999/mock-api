@@ -25,4 +25,7 @@ class ConditionCombinationEntity {
     @JoinColumn(name = "configuration_id")
     lateinit var configurationEntity: ConfigurationEntity
 
+    @Column(name = "uuid")
+    lateinit var uuid: String
+
 }

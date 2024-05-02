@@ -15,6 +15,8 @@ import `in`.mockapi.repository.ConfigurationRepository
 import `in`.mockapi.service.encryption.CryptoService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.util.UUID
+import kotlin.random.Random
 
 
 @Service
@@ -75,6 +77,7 @@ class DummyApiService(
             conditionCombination = conditionCombinations
             response = jacksonObjectMapper().writeValueAsString(requestPayload.responseToBeSaved)
             configurationEntity = configuration
+            uuid = UUID.randomUUID().toString()
         }
 
         conditionCombinationRepository.save(conditionCombinationEntity)
@@ -97,13 +100,26 @@ class DummyApiService(
         return createSuccessResponseEntity("Successfully deleted api name and all related conditions")
     }
 
+    @Transactional
+    fun deleteConditionCombinationForApiName(name: String, conditionCombinationUuid: String): String {
+
+        val conditionCombinationEntity = conditionCombinationRepository.findByUuid(conditionCombinationUuid)
+            ?: return createFailureResponseEntity("Failed. Condition not found")
+
+        if (conditionCombinationEntity.configurationEntity.name.equals(name))
+            conditionCombinationRepository.deleteByUuid(conditionCombinationUuid)
+        else return createFailureResponseEntity("Condition not found for given api name")
+
+        return createSuccessResponseEntity("Successfully deleted condition for given api name")
+    }
+
     fun listAllForName(name: String): String {
 
         val configuration =
             configurationRepository.findByName(name) ?: throw Exception("Failed. Configuration name not found.")
 
         return createSuccessResponseEntity(
-            jacksonObjectMapper().writeValueAsString(dummyApiLogicService.getList(configuration,name))
+            jacksonObjectMapper().writeValueAsString(dummyApiLogicService.getList(configuration, name))
         )
     }
 
